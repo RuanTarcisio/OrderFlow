@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: todo_ms
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todo_db
+    username: postgres
+    password: senh@BD
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+    properties:
+      hibernate:
+        "globally_quoted_identifiers": "true"
+      hibernate.format_sql: true
+
+api:
+  security:
+    token:
+      secret: 98b3a9198243172be6a1ecb688567f9905c93250f489c1fa0a4bab507956ebea

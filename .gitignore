@@ -1,0 +1,15 @@
+# Ignorar diretórios de build
+/build/
+/target/
+
+# Ignorar dependências de Node.js
+/node_modules/
+
+# Ignorar arquivos de configuração do IDE
+/.idea/
+/*.iml
+
+# Ignorar arquivos temporários
+*.log
+*.tmp
+*.bak
