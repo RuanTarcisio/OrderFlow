@@ -1,9 +1,6 @@
 package com.rtarcisio.inventaryms.domains;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +17,12 @@ public class Inventory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Pode ser opcional se você usar productId como chave
-    private Long productId;
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product; // Referência ao produto
+
     private Integer availableQuantity;
     private Integer minimumThreshold;
     private Integer reorderLevel;

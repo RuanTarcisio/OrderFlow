@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonMapper {
 
-	public Person inputToPerson(UsuarioInput input) {
+	public static Person inputToPerson(UsuarioInput input) {
 
 		String encryptedPassword = new BCryptPasswordEncoder().encode(input.getPasswd());
 		UserRole role;
@@ -29,7 +29,7 @@ public class PersonMapper {
 				
 	}
 
-	 public PersonDto personToDTO(Person person){
+	 public static PersonDto personToDTO(Person person){
 	        return PersonDto.builder()
 					.id(person.getId())
 					.cpf(person.getCpf())

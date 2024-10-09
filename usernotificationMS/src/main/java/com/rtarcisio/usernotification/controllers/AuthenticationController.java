@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.net.URI;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 @Validated
 public class AuthenticationController {
 
@@ -59,7 +59,7 @@ public class AuthenticationController {
 
     @Transactional
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> salvarUsuario(@Valid UsuarioInput usuarioInput) throws IOException {
+    public ResponseEntity<Void> salvarUsuario(@Valid UsuarioInput usuarioInput) throws IOException {
 
         Person person = service.savePerson(usuarioInput);
 
