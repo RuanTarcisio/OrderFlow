@@ -63,4 +63,15 @@ public enum ProductState implements ProductStateInterface{
 
         }
     }
+    ,NEW_PRODUCT{
+        @Override
+        public void checkAvailability(Product product) {
+
+        }
+
+        @Override
+        public void notifyUsers(Product product) {
+
+        }
+    }
 }

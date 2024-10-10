@@ -2,9 +2,9 @@ package com.rtarcisio.inventaryms.controllers;
 
 import com.rtarcisio.inventaryms.domains.Product;
 import com.rtarcisio.inventaryms.dtos.ProductDTO;
-import com.rtarcisio.inventaryms.dtos.input.ProductInput;
+import com.rtarcisio.inventaryms.dtos.input.ProductInputDetailed;
+import com.rtarcisio.inventaryms.dtos.input.ProductInputSimple;
 import com.rtarcisio.inventaryms.services.ProductService;
-import com.rtarcisio.inventaryms.validations.ProductInsert;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,22 +29,22 @@ public class ProductController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> saveProduct(@Valid ProductInput productInput) throws IOException {
+    public ResponseEntity<Void> saveProduct(@Valid ProductInputDetailed productInput) throws IOException {
 
-      productService.saveProduct(productInput);
+      ProductDTO dto = productService.saveProduct(productInput);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(/* FALTA AQUI*/).toUri();
-        return ResponseEntity.created(uri).build();
+      URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+      return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
         Product product = productService.findProduct(id);
-//        ProductDTO productDTO =
+        ProductDTO productDTO = ProductDTO.toDTO(product);
 
 //        List<ProductDTO> allCountrys = productService.getAllProducts();
 //        return ResponseEntity.ok(allCountrys);
-        return null;
+        return ResponseEntity.ok().body(productDTO);
     }
 
     @GetMapping("/all")
@@ -55,9 +55,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable Long id){
+    public ResponseEntity<Void> updateProduct(@PathVariable Long id, ProductInputSimple input){
 
-            productService.updateProduct(id);
+        productService.updateProduct(id, input);
         return ResponseEntity.accepted().build();
 
     }
