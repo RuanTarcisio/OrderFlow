@@ -4,6 +4,7 @@ import com.rtarcisio.inventaryms.domains.Product;
 import com.rtarcisio.inventaryms.dtos.ProductDTO;
 import com.rtarcisio.inventaryms.dtos.input.ProductInputDetailed;
 import com.rtarcisio.inventaryms.dtos.input.ProductInputSimple;
+import com.rtarcisio.inventaryms.dtos.input.ProductInventoryInputUpdate;
 import com.rtarcisio.inventaryms.enums.CategoryEnum;
 import com.rtarcisio.inventaryms.mappers.ProductMapper;
 import com.rtarcisio.inventaryms.repositories.InventoryRepository;

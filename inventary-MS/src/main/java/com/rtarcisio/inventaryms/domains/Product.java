@@ -39,7 +39,7 @@ public class Product {
     @LastModifiedDate
     private LocalDateTime updatedDate;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Inventory inventory;
 
     @Enumerated(EnumType.STRING)

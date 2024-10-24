@@ -1,24 +1,26 @@
 package com.rtarcisio.inventaryms.state;
 
+import com.rtarcisio.inventaryms.domains.Inventory;
 import com.rtarcisio.inventaryms.domains.Product;
 
 import java.time.LocalDateTime;
 
 /**
- *PENDING, IN_PROGRESS, COMPLETED
  * @author ruantarcisio
  */
 public enum ProductState implements ProductStateInterface{
     OUT_OF_STOCK{
         @Override
         public void checkAvailability(Product product) {
-            if (product.getInventory().getAvailableQuantity() > product.getInventory().getMinimumThreshold()) {
+
+            Inventory inventory = product.getInventory();
+            if (inventory.getAvailableQuantity() > inventory.getMinimumThreshold()) {
                 product.setState(IN_STOCK);
-                product.getInventory().setLastUpdated(LocalDateTime.now());
+                inventory.setLastUpdated(LocalDateTime.now());
             }
-            else if (product.getInventory().getAvailableQuantity() <= product.getInventory().getMinimumThreshold()) {
+            else if (inventory.getAvailableQuantity() <= inventory.getMinimumThreshold()) {
                 product.setState(LOW_STOCK);
-                product.getInventory().setLastUpdated(LocalDateTime.now());
+                inventory.setLastUpdated(LocalDateTime.now());
             }
         }
 
@@ -30,13 +32,15 @@ public enum ProductState implements ProductStateInterface{
     IN_STOCK{
         @Override
         public void checkAvailability(Product product) {
-            if (product.getInventory().getAvailableQuantity() <= product.getInventory().getMinimumThreshold() && product.getInventory().getAvailableQuantity() > 0) {
+            Inventory inventory = product.getInventory();
+            if (inventory.getAvailableQuantity() <= inventory.getMinimumThreshold() && inventory.getAvailableQuantity() > 0) {
                 product.setState(LOW_STOCK);
-                product.getInventory().setLastUpdated(LocalDateTime.now());
+                notifyUsers(product);
+                inventory.setLastUpdated(LocalDateTime.now());
             }
-            else if (product.getInventory().getAvailableQuantity() == 0) {
+            else if (inventory.getAvailableQuantity() == 0) {
                 product.setState(OUT_OF_STOCK);
-                product.getInventory().setLastUpdated(LocalDateTime.now());
+                inventory.setLastUpdated(LocalDateTime.now());
             }
         }
 
@@ -48,13 +52,15 @@ public enum ProductState implements ProductStateInterface{
     LOW_STOCK{
         @Override
         public void checkAvailability(Product product) {
-            if (product.getInventory().getAvailableQuantity() > product.getInventory().getMinimumThreshold()) {
+            Inventory inventory = product.getInventory();
+            if (inventory.getAvailableQuantity() > inventory.getMinimumThreshold()) {
                 product.setState(IN_STOCK);
-                product.getInventory().setLastUpdated(LocalDateTime.now());
+                inventory.setLastUpdated(LocalDateTime.now());
             }
-            else if (product.getInventory().getAvailableQuantity() == 0) {
+            else if (inventory.getAvailableQuantity() == 0) {
                 product.setState(OUT_OF_STOCK);
-                product.getInventory().setLastUpdated(LocalDateTime.now());
+                notifyUsers(product);
+                inventory.setLastUpdated(LocalDateTime.now());
             }
         }
 

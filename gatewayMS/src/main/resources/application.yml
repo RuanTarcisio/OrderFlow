@@ -3,7 +3,7 @@ server:
 
 spring:
     application:
-        name: olympic-gateway
+        name: gateway
     cloud:
         gateway:
             discovery:

@@ -1,8 +1,8 @@
 spring:
   application:
-    name: todo_ms
+    name: inventory-ms
   datasource:
-    url: jdbc:postgresql://localhost:5432/usersDB-ms
+    url: jdbc:postgresql://localhost:5432/productsDB-ms
     username: postgres
     password: senh@BD
   jpa:
