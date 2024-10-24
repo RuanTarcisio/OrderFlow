@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +21,11 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderState state;
+
+    private Long user_id;
+
+    @ElementCollection
+    private List<String> products_id;
 
     private BigDecimal totalAmount;
 
