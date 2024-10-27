@@ -3,7 +3,6 @@
     import com.rtarcisio.inventaryms.dtos.input.ProductInventoryInputUpdate;
     import com.rtarcisio.inventaryms.repositories.ProductRepository;
     import com.rtarcisio.inventaryms.services.InventoryService;
-    import com.rtarcisio.inventaryms.services.ProductService;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.http.ResponseEntity;
     import org.springframework.validation.annotation.Validated;

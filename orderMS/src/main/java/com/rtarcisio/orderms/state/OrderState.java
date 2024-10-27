@@ -1,6 +1,6 @@
 package com.rtarcisio.orderms.state;
 
-import com.rtarcisio.orderms.domain.Order;
+import com.rtarcisio.orderms.domains.Order;
 
 public enum OrderState implements OrderStateInterface {
     NEW{

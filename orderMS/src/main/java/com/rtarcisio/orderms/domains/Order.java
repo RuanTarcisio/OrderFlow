@@ -1,4 +1,4 @@
-package com.rtarcisio.orderms.domain;
+package com.rtarcisio.orderms.domains;
 
 import com.rtarcisio.orderms.state.OrderState;
 import jakarta.persistence.*;
@@ -14,20 +14,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Enumerated(EnumType.STRING)
-    private OrderState state;
-
-    private Long user_id;
+    private Long userId;
 
     @ElementCollection
-    private List<String> products_id;
+    private List<String> productsId;
 
     private BigDecimal totalAmount;
+
+    private Boolean paymentApproved;
+
+    private String paymentId;
+
+    @Enumerated(EnumType.STRING)
+    private OrderState state;
 
     public void nextState() {
         state.next(this);
@@ -46,6 +49,18 @@ public class Order {
             throw new UnsupportedOperationException("Only delivered orders can be returned.");
         }
         state.next(this);
+    }
+
+    public void changePaymentMethod(String newPaymentMethod) {
+        if (!state.equals(OrderState.NEW) && !state.equals(OrderState.PENDING_PAYMENT)) {
+            throw new UnsupportedOperationException("Cannot change payment method after payment is completed or in process.");
+        }
+
+        // Lógica para chamar o Payment MS e alterar a forma de pagamento
+//        PaymentService.changePaymentMethod(paymentId, newPaymentMethod);
+
+        // Atualize o pedido para refletir a nova forma de pagamento (caso necessário)
+        this.paymentId = newPaymentMethod;  // ou um novo paymentId
     }
 
     public String getStatus() {

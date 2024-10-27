@@ -36,6 +36,9 @@ public class Person {
 
     private LocalDate dataNascimento;
 
+    @Embedded
+    private Address address;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 }
