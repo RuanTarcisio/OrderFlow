@@ -1,5 +1,7 @@
 package com.rtarcisio.orderms.domains;
 
+import com.rtarcisio.orderms.enums.PaymentMethod;
+import com.rtarcisio.orderms.enums.PaymentStatus;
 import com.rtarcisio.orderms.state.OrderState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,12 @@ public class Order {
     private List<String> productsId;
 
     private BigDecimal totalAmount;
+
+    @Enumerated (EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @Enumerated (EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
     private Boolean paymentApproved;
 

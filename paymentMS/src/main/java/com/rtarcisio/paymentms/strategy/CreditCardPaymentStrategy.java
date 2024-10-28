@@ -5,6 +5,6 @@ import com.rtarcisio.paymentms.domains.Payment;
 public class CreditCardPaymentStrategy implements PaymentStrategy{
     @Override
     public void processPayment(Payment payment) {
-
+        System.out.println("Payment with credit card");
     }
 }
