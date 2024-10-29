@@ -1,9 +1,6 @@
 package com.rtarcisio.paymentms.enums;
 
-import com.rtarcisio.paymentms.strategy.CreditCardPaymentStrategy;
-import com.rtarcisio.paymentms.strategy.PayPalPaymentStrategy;
-import com.rtarcisio.paymentms.strategy.PaymentStrategy;
-import com.rtarcisio.paymentms.strategy.PixPaymentStrategy;
+import com.rtarcisio.paymentms.strategy.*;
 
 public enum PaymentMethod {
     CREDIT_CARD(new CreditCardPaymentStrategy()),

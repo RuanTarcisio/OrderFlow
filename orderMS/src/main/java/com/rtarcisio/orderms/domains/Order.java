@@ -5,14 +5,17 @@ import com.rtarcisio.orderms.enums.PaymentStatus;
 import com.rtarcisio.orderms.state.OrderState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
@@ -22,8 +25,8 @@ public class Order {
 
     private Long userId;
 
-    @ElementCollection
-    private List<String> productsId;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductOrder> products = new ArrayList<>(); // Lista dos produtos e seus dados imutáveis
 
     private BigDecimal totalAmount;
 
@@ -35,7 +38,7 @@ public class Order {
 
     private Boolean paymentApproved;
 
-    private String paymentId;
+    private Long paymentId;
 
     @Enumerated(EnumType.STRING)
     private OrderState state;
@@ -68,7 +71,7 @@ public class Order {
 //        PaymentService.changePaymentMethod(paymentId, newPaymentMethod);
 
         // Atualize o pedido para refletir a nova forma de pagamento (caso necessário)
-        this.paymentId = newPaymentMethod;  // ou um novo paymentId
+//        this.paymentId = newPaymentMethod;  // ou um novo paymentId
     }
 
     public String getStatus() {
