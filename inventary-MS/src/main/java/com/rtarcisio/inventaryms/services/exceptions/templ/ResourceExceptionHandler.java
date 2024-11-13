@@ -20,7 +20,7 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(IOException.class)
 	public ResponseEntity<StandardError> _IOException(IOException e, HttpServletRequest request) {
 
-		StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), "Parametro invalido", request.getRequestURI());
+		StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}

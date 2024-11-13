@@ -16,12 +16,11 @@ public enum ProductState implements ProductStateInterface{
             Inventory inventory = product.getInventory();
             if (inventory.getAvailableQuantity() > inventory.getMinimumThreshold()) {
                 product.setState(IN_STOCK);
-                inventory.setLastUpdated(LocalDateTime.now());
             }
-            else if (inventory.getAvailableQuantity() <= inventory.getMinimumThreshold()) {
+            else {
                 product.setState(LOW_STOCK);
-                inventory.setLastUpdated(LocalDateTime.now());
             }
+            inventory.setLastUpdated(LocalDateTime.now());
         }
 
         @Override
@@ -36,12 +35,12 @@ public enum ProductState implements ProductStateInterface{
             if (inventory.getAvailableQuantity() <= inventory.getMinimumThreshold() && inventory.getAvailableQuantity() > 0) {
                 product.setState(LOW_STOCK);
                 notifyUsers(product);
-                inventory.setLastUpdated(LocalDateTime.now());
             }
             else if (inventory.getAvailableQuantity() == 0) {
                 product.setState(OUT_OF_STOCK);
-                inventory.setLastUpdated(LocalDateTime.now());
             }
+            inventory.setLastUpdated(LocalDateTime.now());
+
         }
 
         @Override
@@ -55,13 +54,12 @@ public enum ProductState implements ProductStateInterface{
             Inventory inventory = product.getInventory();
             if (inventory.getAvailableQuantity() > inventory.getMinimumThreshold()) {
                 product.setState(IN_STOCK);
-                inventory.setLastUpdated(LocalDateTime.now());
             }
             else if (inventory.getAvailableQuantity() == 0) {
                 product.setState(OUT_OF_STOCK);
                 notifyUsers(product);
-                inventory.setLastUpdated(LocalDateTime.now());
             }
+            inventory.setLastUpdated(LocalDateTime.now());
         }
 
         @Override

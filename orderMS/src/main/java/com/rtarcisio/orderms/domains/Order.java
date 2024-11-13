@@ -26,7 +26,7 @@ public class Order {
     private Long userId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductOrder> products = new ArrayList<>(); // Lista dos produtos e seus dados imutáveis
+    private List<ProductOrder> products = new ArrayList<>();
 
     private BigDecimal totalAmount;
 

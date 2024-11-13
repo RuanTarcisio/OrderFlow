@@ -27,11 +27,13 @@ public class OrderMapper {
         List<ProductDto> productsDto = ProductMapper.mapToListProductDto(order.getProducts());
 
         return OrderDto.builder()
+                .id(order.getId())
                 .userId(order.getUserId())
                 .totalAmount(order.getTotalAmount())
                 .products(productsDto)
                 .state(order.getStatus())
                 .paymentStatus(order.getPaymentStatus().name())
+                .paymentMethod(order.getPaymentMethod().name())
                 .paymentId(order.getPaymentId())
                 .build();
     }

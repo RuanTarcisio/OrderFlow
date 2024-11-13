@@ -23,8 +23,9 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<OrderDto> newOrder(@Valid OrderInput order) {
-        return null;
+    public ResponseEntity<OrderDto> newOrder(@Valid @RequestBody OrderInput order) {
+        OrderDto orderDto = orderService.createOrder(order);
+        return ResponseEntity.ok().body(orderDto);
     }
 
     @PutMapping("/cancel/{id}")

@@ -1,7 +1,11 @@
 package com.rtarcisio.orderms.dtos;
 
-import java.math.BigDecimal;
+import lombok.Builder;
+import lombok.Data;
 
+import java.math.BigDecimal;
+@Builder
+@Data
 public class OrderPaymentDto {
 
     private Long userId;

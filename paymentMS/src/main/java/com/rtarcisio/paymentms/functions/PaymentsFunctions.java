@@ -25,9 +25,9 @@ public class PaymentsFunctions {
 
     @Bean
     public Function<OrderPaymentDto, UpdatePaymentDto> updatePayment() {
-        return orderPaymentDto -> {
-            log.info("Sending email with the details : " +  orderPaymentDto.toString());
-            return paymentService.makePayment(orderPaymentDto);
+        return updatePaymentDto -> {
+            log.info("Sending email with the details : " +  updatePaymentDto.toString());
+            return paymentService.makePayment(updatePaymentDto);
         };
     }
 

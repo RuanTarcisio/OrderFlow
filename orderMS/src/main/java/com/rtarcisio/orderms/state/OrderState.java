@@ -2,7 +2,7 @@ package com.rtarcisio.orderms.state;
 
 import com.rtarcisio.orderms.domains.Order;
 
-public enum OrderState implements OrderStateInterface {
+public enum  OrderState implements OrderStateInterface {
     NEW{
         @Override
         public void next(Order order) {

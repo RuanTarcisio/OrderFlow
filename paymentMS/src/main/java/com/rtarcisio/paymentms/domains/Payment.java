@@ -23,7 +23,7 @@ public class Payment {
     private Long userId;
     private BigDecimal amount;
     private PaymentMethod paymentMethod;
-    private PaymentStatus paymentStatus;
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
     private LocalDateTime paymentDate;
     private LocalDateTime updatedDate;
 

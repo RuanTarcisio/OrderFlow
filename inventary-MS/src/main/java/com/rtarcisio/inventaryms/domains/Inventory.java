@@ -25,8 +25,8 @@ public class Inventory {
 
     @OneToOne
     @JoinColumn(name = "product_id")
-    private Product product; // Referência ao produto
-
+    private Product product;
+    private Integer inStock;
     private Integer availableQuantity;
     private Integer minimumThreshold;
     private Integer reorderLevel;
