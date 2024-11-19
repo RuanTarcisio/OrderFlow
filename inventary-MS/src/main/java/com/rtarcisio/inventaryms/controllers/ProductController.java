@@ -7,6 +7,7 @@ import com.rtarcisio.inventaryms.dtos.input.ProductInputDetailed;
 import com.rtarcisio.inventaryms.dtos.input.ProductInputSimple;
 import com.rtarcisio.inventaryms.dtos.input.ProductInventoryInputUpdate;
 import com.rtarcisio.inventaryms.dtos.input.ProductStockUpdate;
+import com.rtarcisio.inventaryms.dtos.projection.ProductProjection;
 import com.rtarcisio.inventaryms.mappers.ProductMapper;
 import com.rtarcisio.inventaryms.repositories.InventoryRepository;
 import com.rtarcisio.inventaryms.services.InventoryService;
@@ -69,6 +70,11 @@ public class ProductController {
 
         List<ProductDTO> allProducts = productService.getAllProducts();
         return ResponseEntity.ok().body(allProducts);
+    }
+
+    @GetMapping("/all-products/")
+    public List<ProductProjection> getProductsByCategory() {
+        return productService.getProjectedProducts();
     }
 
     @PutMapping("/{id}")

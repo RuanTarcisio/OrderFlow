@@ -37,6 +37,10 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ImageProduct> imageProducts;
 
+//    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_image_id") // Mapeando a coluna de chave estrangeira
+    private String mainImage_id; // Relacionamento com ImageProduct
+
     @CreatedDate
     private LocalDateTime createdDate;
 

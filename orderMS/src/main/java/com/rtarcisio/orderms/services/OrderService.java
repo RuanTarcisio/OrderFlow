@@ -29,7 +29,7 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public OrderDto createOrder(OrderInput input){
+    public OrderDto createOrder(OrderInput input) {
 
         Order order = OrderMapper.mapToOrder(input);
         order.setState(OrderState.PENDING_PAYMENT);
@@ -42,13 +42,13 @@ public class OrderService {
     }
 
     public Order findOrderById(String orderId) {
-       return orderRepository.findById(orderId).orElseThrow(() -> new ObjetoNaoEncontradoException("Order not found by ID"));
+        return orderRepository.findById(orderId).orElseThrow(() -> new ObjetoNaoEncontradoException("Order not found by ID"));
     }
 
     public void updatePaymentStatus(UpdatePaymentDto updatePaymentDto) {
         Order order = findOrderById(updatePaymentDto.getOrder_id());
 
-        if (updatePaymentDto.getIsApproved()){
+        if (updatePaymentDto.getIsApproved()) {
             order.setPaymentId(updatePaymentDto.getPayment_id());
             order.setPaymentStatus(PaymentStatus.COMPLETED);
             order.setPaymentApproved(updatePaymentDto.getIsApproved());
@@ -57,8 +57,6 @@ public class OrderService {
 
     }
 
-
-
     private void sendCommunication(Order order) {
         var orderMsgDto = createOrderPayment(order);
         log.info("Sending Communication request for the details: {}", orderMsgDto);
@@ -66,7 +64,7 @@ public class OrderService {
         log.info("Is the Communication request successfully triggered ? : {}", result);
     }
 
-    private OrderPaymentDto createOrderPayment(Order order){
+    private OrderPaymentDto createOrderPayment(Order order) {
         return OrderPaymentDto.builder()
                 .orderId(order.getId())
                 .userId(order.getUserId())
