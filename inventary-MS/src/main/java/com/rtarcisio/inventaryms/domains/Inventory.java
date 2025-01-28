@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 public class Inventory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "product_id")
@@ -36,4 +36,13 @@ public class Inventory {
 
     @LastModifiedBy
     private String modifiedBy;
+
+    public void updateStock(int update){
+        this.inStock += update;
+        this.availableQuantity += update;
+    }
+
+    public Boolean isInStock() {
+        return inStock > 0;
+    }
 }

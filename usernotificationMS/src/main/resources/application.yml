@@ -1,6 +1,6 @@
 spring:
   application:
-    name: todo_ms
+    name: usersNotification-MS
   datasource:
     url: jdbc:postgresql://localhost:5432/usersDB-ms
     username: postgres
@@ -14,29 +14,34 @@ spring:
       hibernate:
         "globally_quoted_identifiers": "true"
       hibernate.format_sql: true
-  config:
-    import: "optional:configserver:http://localhost:8071/"
-  cloud:
-    openfeign:
-      circuitbreaker:
-        enabled: true
-    function:
-      definition: updateCommunication
-    stream:
-      bindings:
-        updateCommunication-in-0:
-          destination: communication-sent
-          group: ${spring.application.name}
-        sendCommunication-out-0:
-          destination: send-communication
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    connection-timeout: 10s
+
+#  config:
+#    import: "optional:configserver:http://localhost:8071/"
+#  cloud:
+#    openfeign:
+#      circuitbreaker:
+#        enabled: true
+#    function:
+#      definition: updateCommunication
+#    stream:
+#      bindings:
+#        updateCommunication-in-0:
+#          destination: communication-sent
+#          group: ${spring.application.name}
+#        sendCommunication-out-0:
+#          destination: send-communication
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+#    connection-timeout: 10s
 
 api:
   security:
     token:
       secret: 98b3a9198243172be6a1ecb688567f9905c93250f489c1fa0a4bab507956ebea
+
+      
+server:
+  port: 8082

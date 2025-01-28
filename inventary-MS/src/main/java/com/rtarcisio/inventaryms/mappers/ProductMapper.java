@@ -26,6 +26,7 @@ public class ProductMapper {
 				.reorderLevel(input.getReorderLevel())
 				.minimumThreshold(input.getMinimumThreshold())
 				.availableQuantity(input.getAvailableQuantity())
+				.inStock(input.getAvailableQuantity())
 				.build();
 
 		return buildProduct(input.getName(), input.getCategory(), input.getPrice(), input.getDescription(), inventory);

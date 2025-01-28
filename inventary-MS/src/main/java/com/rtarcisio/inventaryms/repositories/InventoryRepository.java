@@ -3,5 +3,9 @@ package com.rtarcisio.inventaryms.repositories;
 import com.rtarcisio.inventaryms.domains.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface InventoryRepository extends JpaRepository<Inventory, String> {
+import java.util.Optional;
+
+public interface InventoryRepository extends JpaRepository<Inventory, Long> {
+
+    Optional<Inventory> findByProduct_Id(Long aLong);
 }

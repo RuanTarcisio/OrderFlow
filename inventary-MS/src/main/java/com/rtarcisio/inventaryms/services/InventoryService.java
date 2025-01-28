@@ -3,10 +3,11 @@ package com.rtarcisio.inventaryms.services;
 import com.rtarcisio.inventaryms.domains.Inventory;
 import com.rtarcisio.inventaryms.domains.Product;
 import com.rtarcisio.inventaryms.dtos.input.ProductInventoryInputUpdate;
-import com.rtarcisio.inventaryms.dtos.input.ProductStockUpdate;
 import com.rtarcisio.inventaryms.repositories.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class InventoryService {
@@ -20,18 +21,20 @@ public class InventoryService {
         this.productService = productService;
     }
 
-    public Integer updateStock(Long productId, ProductStockUpdate update) {
+    public Integer updateStock(Long productId, Integer value) {
         Product product = productService.findProduct(productId);
         Inventory inventory = product.getInventory();
-        int qtdNow = inventory.getInStock() + update.value();
-        inventory.setInStock(qtdNow);
+        inventory.updateStock(value);
 
-        product.setInventory(inventory);
-        return qtdNow;
+        product.checkAvailability();
+        inventory.setLastUpdated(LocalDateTime.now());
+        return inventory.getAvailableQuantity();
     }
 
     public void checkStockLevels(Long productId) {
-        // Verifica se o produto atingiu um estado crítico
+        Product product = productService.findProduct(productId);
+        Inventory inventory = product.getInventory();
+        product.checkAvailability();
     }
 
 
@@ -41,8 +44,15 @@ public class InventoryService {
 
         inventory.setAvailableQuantity(update.minimumThreshold());
         inventory.setMinimumThreshold(update.minimumThreshold());
-        inventory.setAvailableQuantity(inventory.getAvailableQuantity() + update.quantity());
+        inventory.updateStock(update.quantity());
 
-        product.setInventory(inventory);
+        inventory.setLastUpdated(LocalDateTime.now());
+        product.checkAvailability();
+    }
+
+    public Boolean hasProductInStock(Long idProduct) {
+
+        Inventory inventory = inventoryRepository.findByProduct_Id(idProduct).orElseThrow(()-> new RuntimeException(""));
+        return inventory.isInStock();
     }
 }

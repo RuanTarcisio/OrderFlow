@@ -5,9 +5,9 @@ import com.rtarcisio.inventaryms.domains.Inventory;
 import com.rtarcisio.inventaryms.domains.Product;
 import com.rtarcisio.inventaryms.dtos.ProductDTO;
 import com.rtarcisio.inventaryms.dtos.ProductDetailedDTO;
+import com.rtarcisio.inventaryms.dtos.input.FollowProduct;
 import com.rtarcisio.inventaryms.dtos.input.ProductInputDetailed;
 import com.rtarcisio.inventaryms.dtos.input.ProductInputSimple;
-import com.rtarcisio.inventaryms.dtos.projection.ProductProjection;
 import com.rtarcisio.inventaryms.enums.CategoryEnum;
 import com.rtarcisio.inventaryms.mappers.ImageMapper;
 import com.rtarcisio.inventaryms.mappers.ProductMapper;
@@ -29,9 +29,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-
     @Autowired
-    public ProductService(ProductRepository productRepository ) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -48,7 +47,7 @@ public class ProductService {
         List<ImageProduct> imageProducts = getListImageProducts(inputDetailed, product);
 
         product.getInventory().setProduct(product);
-        product.setState(ProductState.IN_STOCK);
+        product.setState(ProductState.NEW_PRODUCT);
         product.setImageProducts(imageProducts);
         product = productRepository.save(product);
         if (!imageProducts.isEmpty()) {
@@ -104,14 +103,13 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public List<ProductProjection> getProjectedProducts() {
-        return productRepository.findAllProjectedProducts();
-    }
+//    public List<ProductProjection> getProjectedProducts() {
+//        return productRepository.findAllProjectedProducts();
+//    }
 
     private List<ImageProduct> getListImageProducts(ProductInputDetailed inputDetailed, Product product) {
 
-        if (inputDetailed.getFiles() == null)
-            return Collections.emptyList();
+        if (inputDetailed.getFiles() == null) return Collections.emptyList();
 
         List<ImageProduct> list = ImageMapper.mapToImageList(inputDetailed.getFiles());
         list.forEach(item -> {
@@ -121,4 +119,9 @@ public class ProductService {
         return list;
     }
 
+    public void followProduct(FollowProduct toFollow) {
+        Product product = findProduct(toFollow.idProduct());
+        product.getFollowedProductUsers().add(toFollow.userEmail());
+        productRepository.save(product);
+    }
 }

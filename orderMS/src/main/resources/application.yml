@@ -1,13 +1,13 @@
 spring:
   application:
-    name: order_ms
+    name: order-ms
   datasource:
     url: jdbc:postgresql://localhost:5432/ordersDB-ms
     username: postgres
     password: senh@BD
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     open-in-view: true
     properties:
@@ -30,6 +30,43 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: admin
+    password: admin123
     connection-timeout: 10s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    #    instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value} }
+    prefer-ip-address: true
+
+info:
+  app:
+    name: "inventary"
+    description: "OrderFlow Order Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      rtarcisio:
+        orderms: debug

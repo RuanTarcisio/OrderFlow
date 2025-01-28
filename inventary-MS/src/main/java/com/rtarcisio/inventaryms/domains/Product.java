@@ -13,8 +13,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -37,9 +40,8 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ImageProduct> imageProducts;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_image_id") // Mapeando a coluna de chave estrangeira
-    private String mainImage_id; // Relacionamento com ImageProduct
+    @JoinColumn(name = "main_image_id")
+    private String mainImage_id;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -52,6 +54,16 @@ public class Product {
 
     @Enumerated(EnumType.STRING)
     private ProductState state;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "followers_product",
+            joinColumns = @JoinColumn(name = "product_id")
+    )
+    @Column(name = "user_id")
+    private Set<String> followedProductUsers = new HashSet<>();
+
+    private LocalDate lastCheck;
 
     public void checkAvailability() {
         state.checkAvailability(this);

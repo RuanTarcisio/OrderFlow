@@ -1,19 +1,49 @@
 server:
-    port: 8080
+  port: 8080
 
 spring:
-    application:
-        name: gateway
-    cloud:
-        gateway:
-            discovery:
-                locator:
-                    enabled: true
-                    lower-case-service-id: true
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      default-filters:
+        - AddRequestHeader=rtarcisio-correlation-id, dummy-value
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+
+
 
 eureka:
-    client:
-        register-with-eureka: true
-        fetch-registry: true
-        service-url:
-            defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "RTarcisio E-commerce Gateway Server Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      rtarcisio:
+        gatewayms: debug
