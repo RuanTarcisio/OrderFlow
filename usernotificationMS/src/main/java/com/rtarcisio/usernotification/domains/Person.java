@@ -8,6 +8,8 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -38,6 +40,14 @@ public class Person {
 
     @Embedded
     private Address address;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "products_followed",
+            joinColumns = @JoinColumn(name = "user_id")
+    )
+    @Column(name = "skuProduct_id")
+    private Set<String> productsFollowed = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

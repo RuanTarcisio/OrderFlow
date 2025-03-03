@@ -1,8 +1,8 @@
 package com.rtarcisio.inventaryms.state;
 
-import com.rtarcisio.inventaryms.domains.Product;
+import com.rtarcisio.inventaryms.domains.ProductGroup;
 
 public interface ProductStateInterface {
-    void checkAvailability(Product product);
-    void notifyUsers(Product product);
+    void checkAvailability(ProductGroup productGroup);
+    void notifyUsers(ProductGroup productGroup);
 }

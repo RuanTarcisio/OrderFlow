@@ -15,9 +15,9 @@ spring:
         "globally_quoted_identifiers": "true"
       hibernate.format_sql: true
   cloud:
-#    openfeign:
-#      circuitbreaker:
-#        enabled: true
+    openfeign:
+      circuitbreaker:
+        enabled: true
     function:
       definition: updateCommunication
     stream:
@@ -30,8 +30,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: admin
-    password: admin123
+    username: guest
+    password: guest
     connection-timeout: 10s
 
 management:
@@ -45,6 +45,9 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 server:
   port: 0
@@ -70,3 +73,13 @@ logging:
     com:
       rtarcisio:
         orderms: debug
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000

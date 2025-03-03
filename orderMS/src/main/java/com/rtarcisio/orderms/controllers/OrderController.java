@@ -43,8 +43,9 @@ public class OrderController {
 
     @GetMapping
     public String teste(@RequestHeader("RTarcisio_Ecommerce-correlation-id")String correlationId){
-        logger.debug("RTarcisio_Ecommerce-correlation-id found: {}", correlationId );
+        logger.debug("fetchInventoryDetails method start" );
         String status = inventoryClient.teste(correlationId);
+        logger.debug("fetchInventoryDetails method end" );
         return status;
     }
 }

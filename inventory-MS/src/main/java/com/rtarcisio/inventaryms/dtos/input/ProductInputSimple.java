@@ -18,8 +18,6 @@ public class ProductInputSimple {
     private String name;
     @NotEmpty
     private String description;
-    @NotNull
-    private BigDecimal price;
     @NotEmpty
     private String category;
 

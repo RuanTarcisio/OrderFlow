@@ -238,7 +238,7 @@ services:
       - rtarcisio
 
   eureka-server:
-    image: ruantarciisio/eureka:s2
+    image: ruantarciisio/eureka:s2.1
     container_name: eureka-server
     ports:
       - "8761:8761"
@@ -246,16 +246,18 @@ services:
       - EUREKA_INSTANCE_HOSTNAME=eureka-server
       - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
       - EUREKA_CLIENT_FETCH_REGISTRY=false
+      - OTEL_SERVICE_NAME="eureka"
+
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
-      interval: 10s
+      interval: 20s
       timeout: 5s
-      retries: 5
+      retries: 20
     networks:
       - rtarcisio
 
   api-gateway:
-    image: ruantarciisio/gateway:s2
+    image: ruantarciisio/gateway:s2.1
     container_name: api-gateway
     ports:
       - "8080:8080"
@@ -264,11 +266,13 @@ services:
         condition: service_healthy
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - OTEL_SERVICE_NAME="api-gateway"
+
     networks:
       - rtarcisio
 
   microservice-1:
-    image: ruantarciisio/inventory:s2
+    image: ruantarciisio/inventory:s2.1
     container_name: inventory
     depends_on:
       postgres-db:
@@ -280,11 +284,16 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=senh@BD
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - OTEL_SERVICE_NAME=inventory
+      - JAVA_TOOL_OPTIONS="-javaagent:/app/libs/opentelemetry-javaagent-2.11.0.jar"
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://tempo:4318
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_LOGS_EXPORTER=none
     networks:
       - rtarcisio
 
   microservice-2:
-    image: ruantarciisio/order:s2
+    image: ruantarciisio/order:s2.1
     container_name: order
     depends_on:
       postgres-db:
@@ -300,8 +309,14 @@ services:
       - SPRING_RABBITMQ_USERNAME=guest
       - SPRING_RABBITMQ_PASSWORD=guest
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - OTEL_SERVICE_NAME=order
+      - JAVA_TOOL_OPTIONS="-javaagent:/app/libs/opentelemetry-javaagent-2.11.0.jar"
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://tempo:4318
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_LOGS_EXPORTER=none
     networks:
       - rtarcisio
+
 
   postgres-db:
     image: postgres:13

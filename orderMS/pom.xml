@@ -9,10 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.rtarcisio</groupId>
-    <artifactId>orderMS</artifactId>
+    <artifactId>orders</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>orderMS</name>
-    <description>orderMS</description>
+    <name>orders</name>
+    <description>orders</description>
+    <packaging>jar</packaging>
     <url/>
     <licenses>
         <license/>
@@ -28,7 +29,8 @@
     </scm>
     <properties>
         <java.version>17</java.version>
-        <spring-cloud.version>2023.0.5</spring-cloud.version>
+        <otelVersion>2.11.0</otelVersion>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
     </properties>
 
     <dependencies>
@@ -87,10 +89,10 @@
             <version>2.3.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-stream</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -106,9 +108,26 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.opentelemetry.javaagent</groupId>
+            <artifactId>opentelemetry-javaagent</artifactId>
+            <version>${otelVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         </dependency>
     </dependencies>
 
@@ -129,6 +148,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>ruantarciisio/${project.artifactId}:s1</name>
+                    </image>
+                </configuration>
             </plugin>
         </plugins>
     </build>

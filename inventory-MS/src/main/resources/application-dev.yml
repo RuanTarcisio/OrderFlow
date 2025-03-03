@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/productsDB-ms
+    username: postgres
+    password: senh@BD
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+    properties:
+      hibernate:
+        "globally_quoted_identifiers": "true"
+      hibernate.format_sql: true
+
+server:
+  port: 8080
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#    fetch-registry: true
+#    register-with-eureka: true
+#  instance:
+#    #    instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value} }
+#    prefer-ip-address: true
+
+info:
+  app:
+    name: "inventary"
+    description: "OrderFlow Inventory Application"
+    version: "1.0.0"
+
+api:
+  security:
+    token:
+      secret: 98b3a9198243172be6a1ecb688567f9905c93250f489c1fa0a4bab507956ebea
+
+logging:
+  level:
+    com:
+      rtarcisio:
+        inventaryms: debug

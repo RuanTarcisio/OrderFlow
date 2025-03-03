@@ -2,11 +2,11 @@ package com.rtarcisio.inventaryms.mappers;
 
 import com.rtarcisio.inventaryms.domains.ImageProduct;
 import com.rtarcisio.inventaryms.domains.Inventory;
-import com.rtarcisio.inventaryms.domains.Product;
+import com.rtarcisio.inventaryms.domains.ProductGroup;
 import com.rtarcisio.inventaryms.dtos.ImageDTO;
 import com.rtarcisio.inventaryms.dtos.ProductDTO;
 import com.rtarcisio.inventaryms.dtos.ProductDetailedDTO;
-import com.rtarcisio.inventaryms.dtos.input.ProductInputDetailed;
+import com.rtarcisio.inventaryms.dtos.input.ProductSkuInputDetailed;
 import com.rtarcisio.inventaryms.dtos.input.ProductInputSimple;
 import com.rtarcisio.inventaryms.enums.CategoryEnum;
 import org.springframework.stereotype.Component;
@@ -21,54 +21,52 @@ import java.util.List;
 @Component
 public class ProductMapper {
 
-	public static Product inputDetailedToProduct(ProductInputDetailed input) throws IOException {
-		Inventory inventory = Inventory.builder()
-				.reorderLevel(input.getReorderLevel())
-				.minimumThreshold(input.getMinimumThreshold())
-				.availableQuantity(input.getAvailableQuantity())
-				.inStock(input.getAvailableQuantity())
-				.build();
+//	public static ProductGroup inputDetailedToProduct(ProductSkuInputDetailed input) throws IOException {
+//		Inventory inventory = Inventory.builder()
+//				.reorderLevel(input.getReorderLevel())
+//				.minimumThreshold(input.getMinimumThreshold())
+//				.availableQuantity(input.getAvailableQuantity())
+//				.inStock(input.getAvailableQuantity())
+//				.build();
+//
+//		return buildProduct(input.getName(), input.getCategory(), input.getPrice(), input.getDescription(), inventory);
+//	}
 
-		return buildProduct(input.getName(), input.getCategory(), input.getPrice(), input.getDescription(), inventory);
+	public static ProductGroup inputSimpleToProduct(ProductInputSimple input) {
+		return buildProduct(input.getName(), input.getCategory(), input.getDescription());
 	}
 
-	public static Product inputSimpleToProduct(ProductInputSimple input) {
-		return buildProduct(input.getName(), input.getCategory(), input.getPrice(), input.getDescription(), null);
-	}
-
-	private static Product buildProduct(String name, String category, BigDecimal price, String description, Inventory inventory) {
-		return Product.builder()
+	private static ProductGroup buildProduct(String name, String category, String description) {
+		return ProductGroup.builder()
 				.name(name)
 				.category(CategoryEnum.valueOf(category.toUpperCase()))
-				.price(price)
 				.description(description)
-				.inventory(inventory)
 				.build();
 	}
 
-	public static ProductDTO productToDTO(Product product){
+	public static ProductDTO productToDTO(ProductGroup productGroup){
 
 		return null;
 	}
 
 
-	public static ProductDetailedDTO toDetailedDTO(Product product, List<ImageProduct> imageProductsList) throws IOException {
+	public static ProductDetailedDTO toDetailedDTO(ProductGroup productGroup, List<ImageProduct> imageProductsList) throws IOException {
 		List<ImageDTO> imageDTOList = imageProductsList.isEmpty() ?
 				List.of(createDefaultImage()) :
 				ImageMapper.mapToImageDTOList(ImageMapper.mapToMultipartFileList(imageProductsList));
 
-		return buildProductDetailedDTO(product, imageDTOList);
+		return buildProductDetailedDTO(productGroup, imageDTOList);
 	}
 
-	private static ProductDetailedDTO buildProductDetailedDTO(Product product, List<ImageDTO> imageDTOList) {
+	private static ProductDetailedDTO buildProductDetailedDTO(ProductGroup productGroup, List<ImageDTO> imageDTOList) {
 		return ProductDetailedDTO.builder()
-				.id(product.getId())
-				.name(product.getName())
-				.category(product.getCategory().name())
+				.id(productGroup.getId())
+				.name(productGroup.getName())
+				.category(productGroup.getCategory().name())
 				.files(imageDTOList)
-				.description(product.getDescription())
-				.price(product.getPrice())
-				.availableQuantity(product.getInventory().getAvailableQuantity())
+//				.description(productGroup.getDescription())
+//				.price(productGroup.getPrice())
+//				.availableQuantity(productGroup.getInventory().getAvailableQuantity())
 				.build();
 	}
 

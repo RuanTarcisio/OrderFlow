@@ -1,10 +1,9 @@
 package com.rtarcisio.inventaryms.controllers;
 
-import com.rtarcisio.inventaryms.domains.Product;
+import com.rtarcisio.inventaryms.domains.ProductGroup;
 import com.rtarcisio.inventaryms.dtos.ProductDTO;
 import com.rtarcisio.inventaryms.dtos.ProductDetailedDTO;
 import com.rtarcisio.inventaryms.dtos.input.*;
-import com.rtarcisio.inventaryms.dtos.projection.ProductProjection;
 import com.rtarcisio.inventaryms.mappers.ProductMapper;
 import com.rtarcisio.inventaryms.services.InventoryService;
 import com.rtarcisio.inventaryms.services.ProductService;
@@ -36,17 +35,26 @@ public class ProductController {
         this.inventoryService = inventoryService;
     }
 
-    @PostMapping(value = "/register/detailed", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> saveProductDetailed(@ModelAttribute @Valid ProductInputDetailed inputDetailed) throws IOException {
+//    @PostMapping(value = "/register/detailed", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<Void> saveProductDetailed(@ModelAttribute @Valid ProductSkuInputDetailed inputDetailed) throws IOException {
+//
+//        ProductDTO dto = productService.saveProduct(inputDetailed);
+//
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+//        return ResponseEntity.created(uri).build();
+//    }
 
-        ProductDTO dto = productService.saveProduct(inputDetailed);
+    @PostMapping("/register/product")
+    public ResponseEntity<Void> saveProductSimple(@Valid ProductInputSimple inputSimple) throws IOException {
+
+        ProductDTO dto = productService.saveProduct(inputSimple);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping("/register/simple")
-    public ResponseEntity<Void> saveProductSimple(@Valid ProductInputSimple inputSimple) throws IOException {
+    @PostMapping("/register/product/sku")
+    public ResponseEntity<Void> saveProductSimple(@Valid ProductSkuInputDetailed inputSimple) throws IOException {
 
         ProductDTO dto = productService.saveProduct(inputSimple);
 
@@ -56,7 +64,7 @@ public class ProductController {
 
     @Transactional
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDetailedDTO> getProduct(@PathVariable Long id) throws IOException {
+    public ResponseEntity<ProductDetailedDTO> getProduct(@PathVariable String id) throws IOException {
         ProductDetailedDTO productDTO = productService.getProductDetailed(id);
 
         return ResponseEntity.ok().body(productDTO);
@@ -75,15 +83,15 @@ public class ProductController {
 //    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid ProductInputSimple input) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable String id, @Valid ProductInputSimple input) {
 
-        Product product = productService.updateProduct(id, input);
+        ProductGroup productGroup = productService.updateProduct(id, input);
 
-        return ResponseEntity.ok().body(ProductMapper.productToDTO(product));
+        return ResponseEntity.ok().body(ProductMapper.productToDTO(productGroup));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
         productService.deleteProduct(id);
 
         return ResponseEntity.accepted().build();
@@ -91,7 +99,7 @@ public class ProductController {
 
     @PutMapping("/{id}/inventory")
     public ResponseEntity<Void> updateInventory(@PathVariable Long id, @Valid @RequestBody ProductInventoryInputUpdate update) {
-        inventoryService.updateProductInventory(id, update);
+//        inventoryService.updateProductInventory(id, update);
 
         return ResponseEntity.accepted().build();
     }
@@ -99,22 +107,23 @@ public class ProductController {
     @PutMapping("/{id}/stock")
     public ResponseEntity<Integer> updateStock( @PathVariable Long id, @Valid @NotNull Integer update) {
 
-        return ResponseEntity.accepted().body(inventoryService.updateStock(id, update));
+        return null;
+//        return ResponseEntity.accepted().body(inventoryService.updateStock(id, update));
     }
 
     @PutMapping("/{id}/check-stock")
     public ResponseEntity<Void> checkStock( @PathVariable Long id) {
-        inventoryService.checkStockLevels(id);
+//        inventoryService.checkStockLevels(id);
 
         return ResponseEntity.accepted().build();
     }
 
-    @PutMapping("/follow")
-    public ResponseEntity<Void> followProduct(@Valid @RequestBody FollowProduct following) {
-
-        productService.followProduct(following);
-        return ResponseEntity.accepted().build();
-    }
+//    @PutMapping("/follow")
+//    public ResponseEntity<Void> followProduct(@Valid @RequestBody FollowProduct following) {
+//
+//        productService.followProduct(following);
+//        return ResponseEntity.accepted().build();
+//    }
 
 
 

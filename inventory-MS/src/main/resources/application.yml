@@ -26,19 +26,22 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 server:
-  port: 0
+  port: 8080
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    fetch-registry: true
-    register-with-eureka: true
-  instance:
-#    instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value} }
-    prefer-ip-address: true
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#    fetch-registry: true
+#    register-with-eureka: true
+#  instance:
+##    instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value} }
+#    prefer-ip-address: true
 
 info:
   app:
@@ -83,3 +86,5 @@ logging:
     com:
       rtarcisio:
         inventaryms: debug
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

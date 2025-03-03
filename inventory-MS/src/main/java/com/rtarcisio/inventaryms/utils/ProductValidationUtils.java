@@ -15,9 +15,9 @@ public class ProductValidationUtils {
         Set<FieldMessage> list = new HashSet<>();
 
 
-            if (!CategoryEnum.isValidCategory(input.getCategory())) {
-                list.add(new FieldMessage("category", "Invalid Category"));
-            }
+//            if (!CategoryEnum.isValidCategory(input.getCategory())) {
+//                list.add(new FieldMessage("category", "Invalid Category"));
+//            }
 
             System.out.println(input.getCategory());
 

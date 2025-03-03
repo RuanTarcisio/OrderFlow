@@ -40,7 +40,7 @@ public class ImageProduct {
     private byte[] file;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "sku_id")
+    private SkuInventory skuInventory;
 
 }

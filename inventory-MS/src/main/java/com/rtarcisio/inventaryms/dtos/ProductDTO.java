@@ -1,6 +1,6 @@
 package com.rtarcisio.inventaryms.dtos;
 
-import com.rtarcisio.inventaryms.domains.Product;
+import com.rtarcisio.inventaryms.domains.ProductGroup;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ProductDTO {
 
-    @NotEmpty private Long id;
+    @NotEmpty private String id;
     @NotEmpty private String name;
     @NotEmpty private String description; 
     @NotEmpty private BigDecimal price;
@@ -24,15 +24,15 @@ public class ProductDTO {
     @NotEmpty private Integer reorderLevel;
 
 
-    public static ProductDTO toDTO(Product product){
+    public static ProductDTO toDTO(ProductGroup productGroup){
         ProductDTO dto = new ProductDTO();
         return dto.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .category(product.getCategory().name())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .availableQuantity(product.getInventory().getAvailableQuantity())
+                .id(productGroup.getId())
+                .name(productGroup.getName())
+                .category(productGroup.getCategory().name())
+//                .description(productGroup.getDescription())
+//                .price(productGroup.getPrice())
+//                .availableQuantity(productGroup.getInventory().getAvailableQuantity())
 //                .minimumThreshold(product.getInventory().getMinimumThreshold())
 //                .reorderLevel(product.getInventory().getReorderLevel())
                 .build();

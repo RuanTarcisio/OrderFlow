@@ -20,8 +20,8 @@ public class InventoryController {
     private static final Logger logger = LoggerFactory.getLogger(InventoryController.class);
     private final InventoryService inventoryService;
     private final Environment environment;
-    @Value("${build.version}")
-    private String buildVersion;
+//    @Value("${build.version}")
+//    private String buildVersion;
 
     @GetMapping("/{idProduct}")
     public ResponseEntity<Boolean> hasProductInStock(@PathVariable Long idProduct){
@@ -41,7 +41,7 @@ public class InventoryController {
         logger.debug("getBuildInfo() method Invoked");
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(buildVersion);
+                .body("buildVersion");
     }
 
     public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {

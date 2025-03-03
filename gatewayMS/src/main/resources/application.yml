@@ -7,12 +7,19 @@ spring:
   cloud:
     gateway:
       default-filters:
-        - AddRequestHeader=rtarcisio-correlation-id, dummy-value
       discovery:
         locator:
           enabled: false
           lower-case-service-id: true
-
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 2s
+#  data:
+#    redis:
+#      connect-timeout: 2s
+#      host: localhost
+#      port: 6379
+#      timeout: 1s
 
 
 eureka:
@@ -35,6 +42,9 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 info:
   app:
@@ -46,4 +56,14 @@ logging:
   level:
     com:
       rtarcisio:
-        gatewayms: debug
+        gatewayms: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000

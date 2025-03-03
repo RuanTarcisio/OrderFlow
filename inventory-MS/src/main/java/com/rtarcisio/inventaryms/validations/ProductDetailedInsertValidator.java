@@ -1,6 +1,6 @@
 package com.rtarcisio.inventaryms.validations;
 
-import com.rtarcisio.inventaryms.dtos.input.ProductInputDetailed;
+import com.rtarcisio.inventaryms.dtos.input.ProductSkuInputDetailed;
 import com.rtarcisio.inventaryms.services.exceptions.templ.FieldMessage;
 import com.rtarcisio.inventaryms.utils.ProductValidationUtils;
 import jakarta.validation.ConstraintValidator;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public class ProductDetailedInsertValidator implements ConstraintValidator<ProductDetailedInsert, ProductInputDetailed> {
+public class ProductDetailedInsertValidator implements ConstraintValidator<ProductDetailedInsert, ProductSkuInputDetailed> {
 
 	private List<String> allowedContentTypes;
 	private DataSize maxSize;
@@ -24,7 +24,7 @@ public class ProductDetailedInsertValidator implements ConstraintValidator<Produ
 	}
 
 	@Override
-	public boolean isValid(ProductInputDetailed input, ConstraintValidatorContext context) {
+	public boolean isValid(ProductSkuInputDetailed input, ConstraintValidatorContext context) {
 		Set<FieldMessage> list = ProductValidationUtils.validateProductInputSimple(input);
 
 		List<MultipartFile> multipartFiles = input.getFiles();

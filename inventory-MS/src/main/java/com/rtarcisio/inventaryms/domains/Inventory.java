@@ -25,7 +25,7 @@ public class Inventory {
 
     @OneToOne
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductGroup productGroup;
     private Integer inStock;
     private Integer availableQuantity;
     private Integer minimumThreshold;
