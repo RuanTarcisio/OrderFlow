@@ -12,20 +12,15 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+public class ProductSimpleDTO {
 
     @NotEmpty private String id;
     @NotEmpty private String name;
     @NotEmpty private String description; 
-    @NotEmpty private BigDecimal price;
     @NotEmpty private String category;
-    @NotEmpty private Integer availableQuantity;
-    @NotEmpty private Integer minimumThreshold;
-    @NotEmpty private Integer reorderLevel;
 
-
-    public static ProductDTO toDTO(ProductGroup productGroup){
-        ProductDTO dto = new ProductDTO();
+    public static ProductSimpleDTO toDTO(ProductGroup productGroup){
+        ProductSimpleDTO dto = new ProductSimpleDTO();
         return dto.builder()
                 .id(productGroup.getId())
                 .name(productGroup.getName())

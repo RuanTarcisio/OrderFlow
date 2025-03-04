@@ -1,12 +1,14 @@
 package com.rtarcisio.inventaryms.controllers;
 
 import com.rtarcisio.inventaryms.domains.ProductGroup;
-import com.rtarcisio.inventaryms.dtos.ProductDTO;
+import com.rtarcisio.inventaryms.dtos.ProductSimpleDTO;
 import com.rtarcisio.inventaryms.dtos.ProductDetailedDTO;
+import com.rtarcisio.inventaryms.dtos.SkuSimpleDTO;
 import com.rtarcisio.inventaryms.dtos.input.*;
+import com.rtarcisio.inventaryms.enums.CategoryEnum;
 import com.rtarcisio.inventaryms.mappers.ProductMapper;
-import com.rtarcisio.inventaryms.services.InventoryService;
 import com.rtarcisio.inventaryms.services.ProductService;
+import com.rtarcisio.inventaryms.utils.ProductAttributeValidator;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
@@ -27,12 +32,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final InventoryService inventoryService;
+
 
     @Autowired
-    public ProductController(ProductService productService, InventoryService inventoryService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.inventoryService = inventoryService;
     }
 
 //    @PostMapping(value = "/register/detailed", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -44,21 +48,35 @@ public class ProductController {
 //        return ResponseEntity.created(uri).build();
 //    }
 
-    @PostMapping("/register/product")
-    public ResponseEntity<Void> saveProductSimple(@Valid ProductInputSimple inputSimple) throws IOException {
-
-        ProductDTO dto = productService.saveProduct(inputSimple);
+    @PostMapping("/register")
+    public ResponseEntity<Void> saveProductSimple(@Valid @RequestBody ProductInputSimple inputSimple) {
+        ProductAttributeValidator.getRequiredAttributes(CategoryEnum.valueOf(inputSimple.getCategory().toUpperCase()));
+        ProductSimpleDTO dto = productService.saveProductSimple(inputSimple);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping("/register/product/sku")
-    public ResponseEntity<Void> saveProductSimple(@Valid ProductSkuInputDetailed inputSimple) throws IOException {
+    @PostMapping(value = "/register/{productId}/sku", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> saveSkuSimple(@PathVariable String productId,
+                                             @ModelAttribute SkuInput skuInput
+                                             /* @RequestParam("price") BigDecimal price,
+                                              @RequestParam("minimumThreshold") int minimumThreshold,
+                                              @RequestParam("totalQuantity") int totalQuantity,
+                                              @RequestParam Map<String, String> attributes, // 🔥 Captura os atributos individuais
+                                              @RequestParam("files") List<MultipartFile> files*/) throws IOException {
 
-        ProductDTO dto = productService.saveProduct(inputSimple);
+//        SkuInput skuInput = new SkuInput();
+//        skuInput.setMinimumThreshold(minimumThreshold);
+//        skuInput.setPrice(price);
+//        skuInput.setTotalQuantity(totalQuantity);
+//        skuInput.setAttributes(attributes);
+//        skuInput.setFiles(files);
+//        skuInput.setAttributes(attributes);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        SkuSimpleDTO dto = productService.saveSkuProduct(productId, skuInput);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getSkuId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
@@ -71,9 +89,9 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+    public ResponseEntity<List<ProductSimpleDTO>> getAllProducts() {
 
-        List<ProductDTO> allProducts = productService.getAllProducts();
+        List<ProductSimpleDTO> allProducts = productService.getAllProducts();
         return ResponseEntity.ok().body(allProducts);
     }
 
@@ -83,7 +101,7 @@ public class ProductController {
 //    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable String id, @Valid ProductInputSimple input) {
+    public ResponseEntity<ProductSimpleDTO> updateProduct(@PathVariable String id, @Valid ProductInputSimple input) {
 
         ProductGroup productGroup = productService.updateProduct(id, input);
 

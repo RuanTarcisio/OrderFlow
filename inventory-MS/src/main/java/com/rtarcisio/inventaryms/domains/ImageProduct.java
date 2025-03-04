@@ -41,6 +41,6 @@ public class ImageProduct {
 
     @ManyToOne
     @JoinColumn(name = "sku_id")
-    private SkuInventory skuInventory;
+    private SkuProduct skuProduct;
 
 }

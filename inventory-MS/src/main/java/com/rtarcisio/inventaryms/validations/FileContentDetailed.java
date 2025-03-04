@@ -11,8 +11,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = { ProductDetailedInsertValidator.class })
-public @interface ProductDetailedInsert {
+@Constraint(validatedBy = { FileContentDetailedValidator.class })
+public @interface FileContentDetailed {
 
 	String message() default "produto inválido";
 

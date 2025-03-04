@@ -11,6 +11,9 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +102,33 @@ public class ImageMapper {
 //				foto.getExtension().getMediaType(),
 //				foto.getSize());
 //	}
+
+    public static ImageDTO createDefaultImage() throws IOException {
+        byte[] img = downloadImageFromFileSystem();
+        return new ImageDTO(
+                "default-image.png",
+                img.length,
+                "image/png",
+                img
+        );
+    }
+
+    public static byte[] downloadImageFromFileSystem() {
+        try {
+            // Usa o ClassLoader para encontrar o recurso no caminho correto em tempo de execução
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            if (classLoader.getResource("images/no-image.png") == null) {
+                throw new IOException("File not found: images/no-image.png");
+            }
+
+            Path filePath = Paths.get(classLoader.getResource("images/no-image.png").toURI());
+            return Files.readAllBytes(filePath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao carregar a imagem", e);
+        }
+    }
 
     private static class CustomMultipartFile implements MultipartFile {
 

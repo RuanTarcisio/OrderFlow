@@ -18,7 +18,7 @@ public class InventoryEvent {
 
     @ManyToOne
     @JoinColumn(name = "sku_id", nullable = false)
-    private SkuInventory skuInventory;
+    private SkuProduct skuProduct;
 
     private EventTypeEnum eventType;
 

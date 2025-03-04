@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -14,7 +15,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SkuInventory {
+public class SkuProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,20 +33,22 @@ public class SkuInventory {
 
     private int minimumThreshold;
 
-    @OneToMany(mappedBy = "skuInventory", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private BigDecimal price;
+
+    @OneToMany(mappedBy = "skuProduct", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ImageProduct> imageProducts;
 
-    @OneToMany(mappedBy = "skuInventory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "skuProduct", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryEvent> inventoryEvents = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "sku_attributes", joinColumns = @JoinColumn(name = "sku_id"))
+    @CollectionTable(name = "sku_attributes", joinColumns = @JoinColumn(name = "sku_product_id"))
     @MapKeyColumn(name = "attribute_name")
     @Column(name = "attribute_value")
     private Map<String, String> attributes = new HashMap<>();
 
     @ElementCollection
-    @CollectionTable(name = "price_watchers", joinColumns = @JoinColumn(name = "sku_id"))
+    @CollectionTable(name = "price_watchers", joinColumns = @JoinColumn(name = "sku_product_id"))
     @Column(name = "user_id")
     private Set<String> priceWatcherUsers = new HashSet<>();
 
