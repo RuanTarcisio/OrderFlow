@@ -73,20 +73,21 @@ public class ProductService {
         ProductGroup product = findProduct(productId);
         SkuProduct skuProduct = SkuMapper.inputToModel(skuInputSimple);
         skuProduct.setProductGroup(product);
-        skuProduct.setImageProducts(ImageMapper.mapToImageList(skuInputSimple.getFiles()));
+        skuProduct.setImagesProduct(ImageMapper.mapToImageList(skuInputSimple.getFiles()));
 
         Set<String> validAttributes = ProductAttributeValidator.getRequiredAttributes(product.getCategory());
 
-        // Filtra apenas os atributos permitidos
-        Map<String, String> filteredAttributes = skuInputSimple.getAttributes().entrySet().stream()
-                .filter(entry -> validAttributes.contains(entry.getKey()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        // Atualiza os atributos no SKU
-        skuInputSimple.setAttributes(filteredAttributes);
+//        if(skuInputSimple.getAttributes() != null) {
+//            Map<String, String> filteredAttributes = skuInputSimple.getAttributes().entrySet().stream()
+//                    .filter(entry -> validAttributes.contains(entry.getKey()))
+//                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//
+//            // Atualiza os atributos no SKU
+//            skuInputSimple.setAttributes(filteredAttributes);
+//        }
 
         skuProduct = skuProductRepository.save(skuProduct);
-        return null;
+        return SkuMapper.modelToSimpleDto(skuProduct);
     }
 
     public SkuDetailedDTO saveProductSku(SkuInput inputSimple) {

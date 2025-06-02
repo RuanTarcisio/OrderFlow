@@ -23,7 +23,7 @@ public class SkuInput {
     @NotNull private Integer totalQuantity;
     @NotNull private Integer minimumThreshold;
     private List <MultipartFile> files;
-    @NotNull
-    private Map<String, String> attributes = new HashMap<>();
+//    @NotNull
+//    private Map<String, String> attributes = new HashMap<>();
 
 }

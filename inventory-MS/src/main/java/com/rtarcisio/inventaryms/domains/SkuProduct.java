@@ -36,7 +36,7 @@ public class SkuProduct {
     private BigDecimal price;
 
     @OneToMany(mappedBy = "skuProduct", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<ImageProduct> imageProducts;
+    private List<ImageProduct> imagesProduct;
 
     @OneToMany(mappedBy = "skuProduct", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryEvent> inventoryEvents = new ArrayList<>();

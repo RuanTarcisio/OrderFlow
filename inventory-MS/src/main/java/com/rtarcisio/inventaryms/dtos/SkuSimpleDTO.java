@@ -2,14 +2,18 @@ package com.rtarcisio.inventaryms.dtos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtarcisio.inventaryms.enums.CategoryEnum;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+@Builder
 @Data
+@AllArgsConstructor
 public class SkuSimpleDTO {
     private String skuId;
     private String productId;

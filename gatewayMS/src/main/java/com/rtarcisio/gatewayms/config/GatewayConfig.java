@@ -30,6 +30,12 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/contactSupport")))
                         .uri("lb://inventory-ms"))
 
+                .route(r -> r.path("/product-category/**")
+                        .filters(f -> f.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                .circuitBreaker(config -> config.setName("inventoryCircuitBreaker")
+                                        .setFallbackUri("forward:/contactSupport")))
+                        .uri("lb://inventory-ms"))
+
                 .route(r -> r.path("/product/**")
                         .filters(f -> f.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                                 .retry(retryConfig -> retryConfig.setRetries(3)

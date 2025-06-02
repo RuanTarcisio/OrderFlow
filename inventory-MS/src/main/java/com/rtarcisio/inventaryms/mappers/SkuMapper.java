@@ -7,11 +7,14 @@ import com.rtarcisio.inventaryms.dtos.ImageDTO;
 import com.rtarcisio.inventaryms.dtos.SkuDetailedDTO;
 import com.rtarcisio.inventaryms.dtos.SkuSimpleDTO;
 import com.rtarcisio.inventaryms.dtos.input.SkuInput;
+import com.rtarcisio.inventaryms.enums.CategoryEnum;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class SkuMapper {
@@ -22,7 +25,7 @@ public class SkuMapper {
         skuProduct.setPrice(inputSimple.getPrice());
         skuProduct.setTotalQuantity(inputSimple.getTotalQuantity());
         skuProduct.setMinimumThreshold(inputSimple.getMinimumThreshold());
-        skuProduct.setAttributes(inputSimple.getAttributes());
+//        skuProduct.setAttributes(inputSimple.getAttributes());
         skuProduct.setIsAvailable(true);
         skuProduct.setCreatedDate(LocalDate.now());
         return skuProduct;
@@ -39,8 +42,27 @@ public class SkuMapper {
         return null;  //buildSkuDetailedDTO(productGroup, imageDTOList);
     }
 
-    public static SkuSimpleDTO modelToDto(SkuProduct skuProduct){
-        return null;
+    public static SkuSimpleDTO modelToSimpleDto(SkuProduct skuProduct){
+//        private String skuId;
+//        private String productId;
+//        private int availableQuantity;
+//        private Map<String, String> attributes;
+//        private String name;
+//        private String description;
+//        private BigDecimal price;
+//        private CategoryEnum category;
+
+        return SkuSimpleDTO.builder()
+                .skuId(skuProduct.getId())
+                .productId(skuProduct.getProductGroup().getId())
+                .availableQuantity(skuProduct.getAvailableQuantity())
+                .name(skuProduct.getProductGroup().getName())
+                .description(skuProduct.getProductGroup().getDescription())
+                .price(skuProduct.getPrice())
+                .category(skuProduct.getProductGroup().getCategory())
+                .build();
+
+//        return null;
     }
 
 
