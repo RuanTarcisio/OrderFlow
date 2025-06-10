@@ -11,6 +11,7 @@ public enum  OrderState implements OrderStateInterface {
 
         @Override
         public void previous(Order order) {
+            throw new UnsupportedOperationException("Cannot change to previous.");
         }
 
         @Override
@@ -59,7 +60,7 @@ public enum  OrderState implements OrderStateInterface {
 
         @Override
         public void previous(Order order) {
-            order.setState(OrderState.PAID);
+                    order.setState(OrderState.PAID);
         }
 
         @Override

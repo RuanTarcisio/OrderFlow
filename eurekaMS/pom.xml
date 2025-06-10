@@ -9,10 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rtarcisio</groupId>
-	<artifactId>eurekaMS</artifactId>
+	<artifactId>eureka-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>eurekaMS</name>
-	<description>eurekaMS</description>
+	<name>eureka-ms</name>
+	<description>eureka-ms</description>
+	<packaging>jar</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -77,6 +78,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>ruantarciisio/${project.artifactId}:s2</name>
+					</image>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

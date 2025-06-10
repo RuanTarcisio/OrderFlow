@@ -2,9 +2,10 @@ package com.rtarcisio.paymentms.domains;
 
 import com.rtarcisio.paymentms.enums.PaymentMethod;
 import com.rtarcisio.paymentms.enums.PaymentStatus;
-import com.rtarcisio.paymentms.strategy.PaymentStrategy;
+import com.rtarcisio.paymentms.strategy.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,13 +16,16 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false,name = "payment_id")
     private Long id;
     private String orderId;
     private Long userId;
     private BigDecimal amount;
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus = PaymentStatus.PENDING;
     private LocalDateTime paymentDate;
@@ -33,10 +37,7 @@ public class Payment {
     public void processPayment(){
         PaymentStrategy strategy = getPaymentMethod().getStrategy();
         strategy.processPayment(this);
-
-        /*
-        PIX TENTA PAGAR 2x ganha desconto... fazeer para os outros
-
-         */
     }
 }
+
+

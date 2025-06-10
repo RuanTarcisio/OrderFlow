@@ -28,29 +28,33 @@ public class GatewayConfig {
                         .filters(f -> f.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                                 .circuitBreaker(config -> config.setName("inventoryCircuitBreaker")
                                         .setFallbackUri("forward:/contactSupport")))
-                        .uri("lb://inventory-ms"))
+                        .uri("lb://product-ms"))
 
                 .route(r -> r.path("/product-category/**")
                         .filters(f -> f.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                                 .circuitBreaker(config -> config.setName("inventoryCircuitBreaker")
                                         .setFallbackUri("forward:/contactSupport")))
-                        .uri("lb://inventory-ms"))
+                        .uri("lb://product-ms"))
 
                 .route(r -> r.path("/product/**")
                         .filters(f -> f.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                                 .retry(retryConfig -> retryConfig.setRetries(3)
                                         .setMethods(HttpMethod.GET)
                                         .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true)))
-                        .uri("lb://inventory-ms"))
+                        .uri("lb://product-ms"))
 
-                .route(r -> r.path("/orders/**")
+                .route(r -> r.path("/payments/**")
                         .filters(f -> f.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                                 .retry(retryConfig -> retryConfig.setRetries(3)
                                         .setMethods(HttpMethod.GET)
-                                        .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true))
-                               /* .requestRateLimiter(config -> config.setRateLimiter(redisRateLimiter())
-                                        .setKeyResolver(userKeyResolver()))*/)
-                        .uri("lb://order-ms")).build();
+                                        .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true)))
+                        .uri("lb://payment-ms"))
+
+                .route(r -> r.path("/orders/**")
+
+                        .uri("lb://order-ms"))
+                .build();
+
     }
 
     @Bean

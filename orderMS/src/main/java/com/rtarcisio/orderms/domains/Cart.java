@@ -20,6 +20,7 @@ public class Cart {
 
     private Long userId;
 
+    @Column(name = "products_cart")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductOrder> products = new ArrayList<>();
 }

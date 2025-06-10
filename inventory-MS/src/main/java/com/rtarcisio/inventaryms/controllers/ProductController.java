@@ -1,10 +1,12 @@
 package com.rtarcisio.inventaryms.controllers;
 
 import com.rtarcisio.inventaryms.domains.ProductGroup;
-import com.rtarcisio.inventaryms.dtos.ProductSimpleDTO;
 import com.rtarcisio.inventaryms.dtos.ProductDetailedDTO;
+import com.rtarcisio.inventaryms.dtos.ProductSimpleDTO;
 import com.rtarcisio.inventaryms.dtos.SkuSimpleDTO;
-import com.rtarcisio.inventaryms.dtos.input.*;
+import com.rtarcisio.inventaryms.dtos.input.ProductInputSimple;
+import com.rtarcisio.inventaryms.dtos.input.ProductInventoryInputUpdate;
+import com.rtarcisio.inventaryms.dtos.input.SkuInput;
 import com.rtarcisio.inventaryms.enums.CategoryEnum;
 import com.rtarcisio.inventaryms.mappers.ProductMapper;
 import com.rtarcisio.inventaryms.services.ProductService;
@@ -17,14 +19,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
@@ -32,7 +31,6 @@ import java.util.Map;
 public class ProductController {
 
     private final ProductService productService;
-
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -59,7 +57,7 @@ public class ProductController {
 
     @PostMapping(value = "/register/{productId}/sku", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> saveSkuSimple(@PathVariable String productId,
-                                             @ModelAttribute SkuInput skuInput
+                                              @ModelAttribute SkuInput skuInput
                                              /* @RequestParam("price") BigDecimal price,
                                               @RequestParam("minimumThreshold") int minimumThreshold,
                                               @RequestParam("totalQuantity") int totalQuantity,
@@ -88,11 +86,27 @@ public class ProductController {
         return ResponseEntity.ok().body(productDTO);
     }
 
+    @GetMapping("/sku/{id}")
+    public ResponseEntity<SkuSimpleDTO> getSkuProduct(@PathVariable String id) throws IOException {
+        SkuSimpleDTO skuProductDTO = productService.getProductSkuSimple(id);
+
+        return ResponseEntity.ok().body(skuProductDTO);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<ProductSimpleDTO>> getAllProducts() {
 
         List<ProductSimpleDTO> allProducts = productService.getAllProducts();
         return ResponseEntity.ok().body(allProducts);
+    }
+
+    @PostMapping("/{skuProductId}/reserve-stock")
+    public ResponseEntity<Void> reserveSkuProduct(
+            @PathVariable String skuProductId,
+            @RequestParam int quantity) {
+
+        productService.reserveSkuProduct(skuProductId, quantity);
+        return ResponseEntity.accepted().build();
     }
 
 //    @GetMapping("/all-products/")
@@ -123,14 +137,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}/stock")
-    public ResponseEntity<Integer> updateStock( @PathVariable Long id, @Valid @NotNull Integer update) {
+    public ResponseEntity<Integer> updateStock(@PathVariable Long id, @Valid @NotNull Integer update) {
 
         return null;
 //        return ResponseEntity.accepted().body(inventoryService.updateStock(id, update));
     }
 
     @PutMapping("/{id}/check-stock")
-    public ResponseEntity<Void> checkStock( @PathVariable Long id) {
+    public ResponseEntity<Void> checkStock(@PathVariable Long id) {
 //        inventoryService.checkStockLevels(id);
 
         return ResponseEntity.accepted().build();
@@ -142,7 +156,6 @@ public class ProductController {
 //        productService.followProduct(following);
 //        return ResponseEntity.accepted().build();
 //    }
-
 
 
 }

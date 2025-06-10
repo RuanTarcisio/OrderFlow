@@ -3,7 +3,7 @@ package com.rtarcisio.orderms.enums;
 
 
 public enum PaymentMethod {
-    CREDIT_CARD("CREDIT"),
+    CREDIT_CARD("CREDIT_CARD"),
     PAYPAL("PAYPAL"),
     BOLETO("BOLETO"),
     PIX("PIX");

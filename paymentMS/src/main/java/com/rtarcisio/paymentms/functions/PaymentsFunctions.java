@@ -1,16 +1,17 @@
 package com.rtarcisio.paymentms.functions;
 
 import com.rtarcisio.paymentms.dtos.OrderPaymentDto;
-import com.rtarcisio.paymentms.dtos.UpdatePaymentDto;
+import com.rtarcisio.paymentms.dtos.PaymentDto;
 import com.rtarcisio.paymentms.services.PaymentService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.function.Function;
 
+@RequiredArgsConstructor
 @Configuration
 public class PaymentsFunctions {
 
@@ -18,16 +19,12 @@ public class PaymentsFunctions {
 
     private final PaymentService paymentService;
 
-    @Autowired
-    public PaymentsFunctions(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
-
     @Bean
-    public Function<OrderPaymentDto, UpdatePaymentDto> updatePayment() {
-        return updatePaymentDto -> {
-            log.info("Sending email with the details : " +  updatePaymentDto.toString());
-            return paymentService.makePayment(updatePaymentDto);
+    public Function<OrderPaymentDto, PaymentDto> processPayment() {
+        return orderPaymentDto -> {
+            log.info("Payment-MS: Pedido de pagamento recebido: {}", orderPaymentDto);
+
+            return paymentService.makePayment(orderPaymentDto);
         };
     }
 

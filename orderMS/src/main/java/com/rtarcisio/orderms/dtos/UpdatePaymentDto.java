@@ -17,4 +17,5 @@ public class UpdatePaymentDto {
     private Boolean isApproved;
     private LocalDateTime paymentDate;
     private String description;
+    private String transaction_id;
 }

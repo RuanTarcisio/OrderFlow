@@ -11,27 +11,27 @@ import org.springframework.context.annotation.Configuration;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-@Configuration
-public class OrdersFunctions {
+    @Configuration
+    public class OrdersFunctions {
 
-    private static final Logger log = LoggerFactory.getLogger(OrdersFunctions.class);
+        private static final Logger log = LoggerFactory.getLogger(OrdersFunctions.class);
 
-    @Bean
-    public Function<OrderPaymentDto,OrderPaymentDto> orderPayment() {
-        return orderPaymentDto -> {
-            log.info("Sending sms with the details : " +  orderPaymentDto.toString());
-            return orderPaymentDto;
-        };
+        @Bean
+        public Function<OrderPaymentDto,OrderPaymentDto> orderPayment() {
+            return orderPaymentDto -> {
+                log.info("Sending sms with the details : " +  orderPaymentDto.toString());
+                return orderPaymentDto;
+            };
+        }
+
+        @Bean
+        public Consumer<UpdatePaymentDto> handlePaymentResult(OrderService orderService) {
+            return updatePaymentDto -> {
+                log.info("Updating Communication status for the account number : " + updatePaymentDto.toString());
+                orderService.updatePaymentStatus(updatePaymentDto);
+            };
+        }
+
+        // IF PAYMENTMETHOD = CREDIT DEVE REALIZAR 3 TENTATIVAS, PODE USAR A API JOB.
+
     }
-
-    @Bean
-    public Consumer<UpdatePaymentDto> updateCommunication(OrderService orderService) {
-        return updatePaymentDto -> {
-            log.info("Updating Communication status for the account number : " + updatePaymentDto.toString());
-            orderService.updatePaymentStatus(updatePaymentDto);
-        };
-    }
-
-    // IF PAYMENTMETHOD = CREDIT DEVE REALIZAR 3 TENTATIVAS, PODE USAR A API JOB.
-
-}

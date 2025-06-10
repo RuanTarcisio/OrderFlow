@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rtarcisio</groupId>
-	<artifactId>usernotificationMS</artifactId>
+	<artifactId>user-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>usernotificationMS</name>
-	<description>usernotificationMS</description>
+	<name>user-ms</name>
+	<description>user-ms</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -160,6 +160,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+						<name>ruantarciisio/${project.artifactId}:s2</name>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

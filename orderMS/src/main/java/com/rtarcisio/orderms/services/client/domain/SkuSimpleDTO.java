@@ -1,0 +1,46 @@
+package com.rtarcisio.orderms.services.client.domain;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
+@Builder
+@Data
+@AllArgsConstructor
+public class SkuSimpleDTO {
+    private String skuId;
+    private String productId;
+    private int availableQuantity;
+    private Map<String, String> attributes;
+    private String name;
+    private String description;
+    private BigDecimal price;
+    private String category;
+
+    public SkuSimpleDTO() {
+    }
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    public SkuSimpleDTO(String skuId, String productId, int availableQuantity, /*Map<String, String> attributes*/  String attributesJson, String name, String description, BigDecimal price, String category) {
+        this.skuId = skuId;
+        this.productId = productId;
+        this.availableQuantity = availableQuantity;
+//        this.attributes = attributes;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+
+        // 🔄 Converte JSON de volta para Map<String, String>
+        try {
+            this.attributes = objectMapper.readValue(attributesJson, Map.class);
+        } catch (Exception e) {
+            this.attributes = new HashMap<>(); // Se der erro, mantém um mapa vazio
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package com.rtarcisio.gatewayms.config.filters;
+package com.rtarcisio.gatewayms.filters;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

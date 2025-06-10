@@ -1,4 +1,4 @@
-package com.rtarcisio.gatewayms.config.filters;
+package com.rtarcisio.gatewayms.filters;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;

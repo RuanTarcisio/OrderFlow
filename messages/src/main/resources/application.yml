@@ -3,9 +3,19 @@ server:
 
 spring:
   application:
-    name: messages
+    name: "messages"
   cloud:
     function:
       definition: email|sms
-
+  stream:
+    bindings:
+      emailsms-in-0:
+        destination: send-ccommunication
+        group: ${spring.application.name}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    connection-timeout: 10s
 

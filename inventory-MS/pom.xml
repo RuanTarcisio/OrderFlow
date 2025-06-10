@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rtarcisio</groupId>
-	<artifactId>inventory</artifactId>
+	<artifactId>inventory-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>inventory</name>
 	<description>inventory</description>
@@ -164,7 +164,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>ruantarciisio/${project.artifactId}:s1</name>
+						<name>ruantarciisio/${project.artifactId}:s2</name>
 					</image>
 				</configuration>
 			</plugin>

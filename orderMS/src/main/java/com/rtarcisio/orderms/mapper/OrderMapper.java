@@ -27,7 +27,7 @@ public class OrderMapper {
         List<ProductDto> productsDto = ProductMapper.mapToListProductDto(order.getProducts());
 
         return OrderDto.builder()
-                .id(order.getId())
+                .orderId(order.getId())
                 .userId(order.getUserId())
                 .totalAmount(order.getTotalAmount())
                 .products(productsDto)

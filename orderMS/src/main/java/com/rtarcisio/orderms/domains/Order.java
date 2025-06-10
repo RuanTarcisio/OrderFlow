@@ -25,6 +25,7 @@ public class Order {
 
     private Long userId;
 
+    @Column(name = "products_order")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductOrder> products = new ArrayList<>();
 
@@ -35,8 +36,6 @@ public class Order {
 
     @Enumerated (EnumType.STRING)
     private PaymentStatus paymentStatus;
-
-    private Boolean paymentApproved;
 
     private Long paymentId;
 
@@ -66,12 +65,6 @@ public class Order {
         if (!state.equals(OrderState.NEW) && !state.equals(OrderState.PENDING_PAYMENT)) {
             throw new UnsupportedOperationException("Cannot change payment method after payment is completed or in process.");
         }
-
-        // Lógica para chamar o Payment MS e alterar a forma de pagamento
-//        PaymentService.changePaymentMethod(paymentId, newPaymentMethod);
-
-        // Atualize o pedido para refletir a nova forma de pagamento (caso necessário)
-//        this.paymentId = newPaymentMethod;  // ou um novo paymentId
     }
 
     public String getStatus() {

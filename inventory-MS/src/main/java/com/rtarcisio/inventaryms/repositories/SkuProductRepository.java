@@ -27,7 +27,6 @@ public interface SkuProductRepository extends JpaRepository<SkuProduct, String> 
             s.id,
             p.id,
             s.availableQuantity,
-            CAST(s.attributes AS string),
             p.name,
             p.description,
             s.price,
@@ -38,6 +37,8 @@ public interface SkuProductRepository extends JpaRepository<SkuProduct, String> 
         WHERE s.id = :skuId
     """)
     Optional<SkuSimpleDTO> findSkuDetailedById(@Param("skuId") String skuId);
+//    CAST(s.attributes AS string),
+
 
 //    @Query("""
 //    SELECT new com.rtarcisio.inventaryms.dtos.SkuSimpleDTO(

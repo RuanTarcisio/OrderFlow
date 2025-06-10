@@ -18,7 +18,7 @@ public class SkuSimpleDTO {
     private String skuId;
     private String productId;
     private int availableQuantity;
-    private Map<String, String> attributes;
+//    private Map<String, String> attributes;
     private String name;
     private String description;
     private BigDecimal price;
@@ -39,10 +39,10 @@ public class SkuSimpleDTO {
         this.category = category;
 
         // 🔄 Converte JSON de volta para Map<String, String>
-        try {
-            this.attributes = objectMapper.readValue(attributesJson, Map.class);
-        } catch (Exception e) {
-            this.attributes = new HashMap<>(); // Se der erro, mantém um mapa vazio
-        }
+//        try {
+//            this.attributes = objectMapper.readValue(attributesJson, Map.class);
+//        } catch (Exception e) {
+//            this.attributes = new HashMap<>(); // Se der erro, mantém um mapa vazio
+//        }
     }
 }
