@@ -1,0 +1,22 @@
+server:
+  port: 9000 # Porta padrão para o Authorization Server
+spring:
+  application:
+    name: authorization-server
+  # Habilitar o registro no Eureka (se você for usar Eureka)
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://localhost:8761/eureka/ # URL do seu Eureka Server
+    instance:
+      instance-id: ${spring.application.name}:${instanceId:${random.value}}
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#    fetch-registry: true
+#    register-with-eureka: true
+#  instance:
+#    #    instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value} }
+#    prefer-ip-address: true
